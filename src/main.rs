@@ -18,7 +18,7 @@ use std::{
 };
 
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:8987").unwrap();
+    let listener = TcpListener::bind("192.168.0.200:8987").unwrap();
 
     for stream in listener.incoming() {
         let Ok(stream) = stream else {
@@ -39,7 +39,7 @@ fn handle_connection(mut stream: TcpStream) {
         .take_while(|line| !line.is_empty());
 
     for _line in http_request_iter {
-        
+
     }
 
     const SEPARATOR: &str = "\r\n";
