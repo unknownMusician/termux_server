@@ -6,7 +6,7 @@ use std::{
     io::{
         // BufReader,
         // BufRead,
-        Write,
+        Write, BufReader, BufRead,
     },
     fs,
     thread,
@@ -18,7 +18,7 @@ use std::{
 };
 
 fn main() {
-    let listener = TcpListener::bind("192.168.0.200:8987").unwrap();
+    let listener = TcpListener::bind("127.0.0.1:8987").unwrap();
 
     for stream in listener.incoming() {
         let Ok(stream) = stream else {
@@ -32,12 +32,15 @@ fn main() {
 }
 
 fn handle_connection(mut stream: TcpStream) {
-    // let buf_reader = BufReader::new(&mut stream);
-    // let http_request = buf_reader
-    //     .lines()
-    //     .map(|result| result.unwrap())
-    //     .take_while(|line| !line.is_empty())
-    //     .collect::<Vec<_>>();
+    let buf_reader = BufReader::new(&mut stream);
+    let http_request_iter = buf_reader
+        .lines()
+        .map(|result| result.unwrap())
+        .take_while(|line| !line.is_empty());
+
+    for _line in http_request_iter {
+        
+    }
 
     const SEPARATOR: &str = "\r\n";
     let status_line = "HTTP/1.1 200 OK";
